@@ -30,12 +30,10 @@ fn get_least_common_multiple(max: usize) -> usize {
     // Then multiply these together
 
     let primes = get_primes(max);
-    println!("primes: {primes:?}");
     let mut prime_factors = vec![0; primes.len()];
     // find the prime factors for all numbers from 2 to max
     for i in 2..=max {
         let mut i = i;
-        print!("{i} has primes ");
         let mut curr_prime_factors: Vec<usize> = vec![0; primes.len()];
         for (idx, prime) in primes.iter().enumerate() {
             if i == 0 {
@@ -46,18 +44,15 @@ fn get_least_common_multiple(max: usize) -> usize {
                 curr_prime_factors[idx] += 1;
             }
         }
-        println!("{curr_prime_factors:?}");
         for (idx, p) in curr_prime_factors.iter().enumerate() {
             prime_factors[idx] = std::cmp::max(*p, prime_factors[idx]);
         }
     }
 
     println!("");
-    println!("{prime_factors:?}");
     let mut sum = 1;
     for (idx, count) in prime_factors.iter().enumerate() {
         let to_add = primes[idx].pow((*count).try_into().unwrap());
-        println!("{}^{} = {}", primes[idx], count, to_add);
         sum *= to_add;
     }
     sum
