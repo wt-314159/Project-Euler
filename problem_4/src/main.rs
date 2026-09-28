@@ -15,12 +15,11 @@ fn main() {
 }
 
 fn is_palindrome(num: usize) -> bool {
-    // Probably a faster way of checking is a number is palindromic
-    // than converting to a string and back, but this is simplest
-    // and more than fast enough for us.
-    let reversed: String = num.to_string().chars().rev().collect();
-    let rev_num = reversed
-        .parse::<usize>()
-        .expect("Failed to parse reversed number");
-    rev_num == num
+    let mut num_2 = num;
+    let mut rev = 0;
+    while num_2 > 0 {
+        rev = 10 * rev + num_2 % 10;
+        num_2 /= 10;
+    }
+    rev == num
 }
