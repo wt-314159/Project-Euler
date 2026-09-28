@@ -28,6 +28,15 @@ fn get_least_common_multiple(max: usize) -> usize {
     // In other words, the minimum set of prime factors for all
     // numbers up to the max.
     // Then multiply these together
+    //
+    // N.B. we could actually skip calculating the numbers of primes
+    // in the prime factors of all the numbers up to max. We can simply
+    // take each number from 2 to max, and see what's the max power it
+    // can be raised to before it "overflows" max (for 2, this would be 4,
+    // since 2^4 = 16 and 2^5 = 32). This can just be directly calculated
+    // using floor( log(20) / log(x))
+    // Of course, for x > sqrt(20), this can only be 1 anyway, so we only
+    // need to calculate up to sqrt(20) (up to and including 4)
 
     let primes = get_primes(max);
     let mut prime_factors = vec![0; primes.len()];
