@@ -7,7 +7,7 @@ fn main() {
             sum += b;
         }
         let temp = b;
-        b = a + b;
+        b += a;
         a = temp;
     }
     println!("{sum}");

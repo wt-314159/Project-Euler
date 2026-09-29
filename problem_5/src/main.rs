@@ -7,6 +7,7 @@ fn main() {
 fn get_primes(max: usize) -> Vec<usize> {
     let mut primes = Vec::new();
     let mut is_prime = vec![true; max];
+    #[allow(clippy::needless_range_loop)]
     for i in 2..max {
         if is_prime[i] {
             for j in (i * i..max).step_by(i) {
@@ -15,8 +16,8 @@ fn get_primes(max: usize) -> Vec<usize> {
         }
     }
 
-    for i in 2..max {
-        if is_prime[i] {
+    for (i, is_prime) in is_prime.iter().enumerate().skip(2) {
+        if *is_prime {
             primes.push(i);
         }
     }
@@ -58,7 +59,6 @@ fn get_least_common_multiple(max: usize) -> usize {
         }
     }
 
-    println!("");
     let mut sum = 1;
     for (idx, count) in prime_factors.iter().enumerate() {
         let to_add = primes[idx].pow((*count).try_into().unwrap());
