@@ -368,6 +368,9 @@ dependencies = [
 [[package]]
 name = "problem_7"
 version = "0.1.0"
+dependencies = [
+ "criterion",
+]
 
 [[package]]
 name = "proc-macro2"
