@@ -1,6 +1,7 @@
 [workspace]
-members = ["problem_*"]
+members = ["common","problem_*"]
 resolver = "3"
 
 [workspace.dependencies]
 criterion = { version = "0.8", features = ["html_reports"] }
+common = { path = "common" }
