@@ -54,6 +54,5 @@ fn main() {
 ///
 /// So `f(n+1)` does indeed equal `f(n) + (n+1)^2`, proof by induction.
 fn calc_sum_of_squares(n: i32) -> i32 {
-    let n = n as f64;
-    (n.powi(3) / 3.0 + n.powi(2) / 2.0 + n / 6.0) as i32
+    (n.pow(3) * 2 + n.pow(2) * 3 + n) / 6
 }
