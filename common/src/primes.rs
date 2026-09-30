@@ -35,11 +35,11 @@ pub fn is_prime(num: usize) -> bool {
 
 pub fn get_primes(max: usize) -> Vec<usize> {
     let max = max + 1; // Do this so we include the specified max
-    let half = max / 2;
+    let root = max.isqrt();
     let mut is_prime: Vec<bool> = vec![true; max];
     let mut primes = Vec::new();
 
-    for i in 2..=half {
+    for i in 2..=root {
         if is_prime[i] {
             for j in (i * i..max).step_by(i) {
                 is_prime[j] = false;
@@ -69,7 +69,7 @@ pub fn get_primes_slow(max: usize) -> Vec<usize> {
 
 pub fn fill_primes(primes: &mut Vec<usize>, max: usize) {
     let max = max + 1;
-    let half = max / 2;
+    let root = max.isqrt();
     let start: usize = primes.last().copied().unwrap_or(1) + 1;
     let mut is_prime: Vec<bool> = vec![true; max - start];
 
@@ -83,7 +83,7 @@ pub fn fill_primes(primes: &mut Vec<usize>, max: usize) {
         }
     }
 
-    for i in start..=half {
+    for i in start..=root {
         if is_prime[i - start] {
             for j in (i * i..max).step_by(i) {
                 is_prime[j - start] = false;
