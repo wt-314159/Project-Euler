@@ -30,10 +30,3 @@ where
     }
     None
 }
-
-pub fn find_pythagorean_triplet_fast<F>(max: usize, predicate: F) -> Option<(usize, usize, usize)>
-where
-    F: Fn(usize, usize, usize) -> bool,
-{
-    None
-}
