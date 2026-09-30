@@ -1,11 +1,40 @@
+/// warning: much slower than testing primality through trial division,
+/// use `is_prime` instead.
+#[deprecated(note = "Please use `is_prime` instead.")]
 pub fn is_prime_eratosthenes(num: usize) -> bool {
     let primes = get_primes(num);
-    println!("{primes:?}");
-    Some(num) == dbg!(primes).last().copied()
+    Some(num) == primes.last().copied()
+}
+
+pub fn is_prime(num: usize) -> bool {
+    if num < 2 {
+        return false;
+    } else if num < 4 {
+        return true;
+    } else if num.is_multiple_of(2) {
+        return false;
+    } else if num < 9 {
+        return true; // have already ruled out all non-primes less than 9
+    } else if num.is_multiple_of(3) {
+        return false;
+    } else {
+        let max = num.isqrt();
+        let mut i = 5;
+        while i <= max {
+            if num.is_multiple_of(i) {
+                return false;
+            }
+            if num.is_multiple_of(i + 2) {
+                return false;
+            }
+            i += 6;
+        }
+        return true;
+    }
 }
 
 pub fn get_primes(max: usize) -> Vec<usize> {
-    let max = max + 1;
+    let max = max + 1; // Do this so we include the specified max
     let half = max / 2;
     let mut is_prime: Vec<bool> = vec![true; max];
     let mut primes = Vec::new();
@@ -17,9 +46,21 @@ pub fn get_primes(max: usize) -> Vec<usize> {
             }
         }
     }
-    println!("{is_prime:?}");
     for (i, is_prime) in is_prime.iter().enumerate().skip(2) {
         if *is_prime {
+            primes.push(i);
+        }
+    }
+    primes
+}
+
+/// warning: much slower than getting primes using seive of eratosthenes
+/// method, use `get_primes` instead.
+#[deprecated(note = "Please use `get_primes` instead.")]
+pub fn get_primes_slow(max: usize) -> Vec<usize> {
+    let mut primes = Vec::new();
+    for i in 2..=max {
+        if is_prime(i) {
             primes.push(i);
         }
     }
@@ -30,7 +71,6 @@ pub fn fill_primes(primes: &mut Vec<usize>, max: usize) {
     let max = max + 1;
     let half = max / 2;
     let start: usize = primes.last().copied().unwrap_or(1) + 1;
-    println!("{max} {start} {}", max - start);
     let mut is_prime: Vec<bool> = vec![true; max - start];
 
     if !primes.is_empty() {
@@ -78,11 +118,18 @@ mod tests {
         assert_eq!(&PRIMES_TO_100, primes.as_slice())
     }
 
+    #[allow(deprecated)]
     #[test]
     fn is_prime_eratosthenes_100() {
         for i in 0..=100 {
-            println!("{i}");
             assert!(is_prime_eratosthenes(i) == PRIMES_TO_100.contains(&i));
+        }
+    }
+
+    #[test]
+    fn is_prime_100() {
+        for i in 0..=100 {
+            assert!(is_prime(i) == PRIMES_TO_100.contains(&i));
         }
     }
 

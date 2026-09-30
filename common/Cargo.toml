@@ -4,3 +4,14 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+
+[dev-dependencies]
+criterion = { workspace = true }
+
+[[bench]]
+name = "is_prime"
+harness = false
+
+[[bench]]
+name = "count_primes"
+harness = false
