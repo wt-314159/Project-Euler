@@ -1,0 +1,46 @@
+fn main() {
+    let digits = "73167176531330624919225119674426574742355349194934969835203127745063262\
+        395783180169848018694788518438586156078911294949545950173795833195285320880551112\
+        540698747158523863050715693290963295227443043557668966489504452445231617318564030\
+        987111217223831136222989342338030813533627661428280644448664523874930358907296290\
+        491560440772390713810515859307960866701724271218839987979087922749219016997208880\
+        937766572733300105336788122023542180975125454059475224352584907711670556013604839\
+        586446706324415722155397536978179778461740649551492908625693219784686224828397224\
+        137565705605749026140797296865241453510047482166370484403199890008895243450658541\
+        227588666881164271714799244429282308634656748139191231628245861786645835912456652\
+        947654568284891288314260769004224219022671055626321111109370544217506941658960408\
+        071984038509624554443629812309878799272442849091888458015616609791913387549920052\
+        406368991256071760605886116467109405077541002256983155200055935729725716362695618\
+        82670428252483600823257530420752963450";
+    let largest_product = find_largest_product(digits, 13);
+    println!("Largest product of 13 digits is: {largest_product}");
+}
+
+fn find_largest_product(digits: &str, num_digits: usize) -> u64 {
+    // Numbers with less than 20 digits definitely fit into a u64
+    assert!(num_digits < 20 && num_digits > 0);
+
+    // Parse all digits once
+    let digits: Vec<u32> = digits
+        .chars()
+        .map(|d| d.to_digit(10).expect("Failed to parse digit"))
+        .collect();
+    // Find the largest sum of neighbouring digits (excluding ones which include zeros)
+    let starting_positions: Vec<usize> = (0..digits.len() - num_digits).collect();
+    let mut largest_product = 0;
+    for position in starting_positions.iter() {
+        let mut curr_prod = 1;
+        for d in digits.iter().skip(*position).take(num_digits) {
+            if *d == 0 {
+                curr_prod = 0;
+                break;
+            }
+            curr_prod *= *d as u64;
+        }
+        if curr_prod > largest_product {
+            largest_product = curr_prod;
+        }
+    }
+
+    largest_product
+}
