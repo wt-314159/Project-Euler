@@ -34,21 +34,33 @@ pub fn is_prime(num: usize) -> bool {
 }
 
 pub fn get_primes(max: usize) -> Vec<usize> {
-    let max = max + 1; // Do this so we include the specified max
-    let root = max.isqrt();
-    let mut is_prime: Vec<bool> = vec![true; max];
-    let mut primes = Vec::new();
-
-    for i in 2..=root {
+    let max = max + 1; // Do this to include the specified max
+    // Only store the odd numbers, since evens (except 2) aren't prime
+    // nth index stores the number 2n + 3 e.g. (3, 5, 7, ...)
+    let num_elements = (max - 2) / 2;
+    let mut is_prime: Vec<bool> = vec![true; num_elements];
+    // Only need to check numbers up to square root of max
+    // index of root 2i + 3 = root  ->  i = (root - 3) / 2
+    let limit = (max.isqrt() - 1) / 2;
+    for i in 0..limit {
         if is_prime[i] {
-            for j in (i * i..max).step_by(i) {
+            // number `a` stored in index `i` is `a = 2i + 3`
+            // we need `a^2`, which is `4i^2 + 12i + 9`
+            // The index for this should be 2x + 3 = 4i^2 + 12i + 9
+            // So index is `x = 2i^2 + 6i + 3`
+            let start = 2 * i * i + 6 * i + 3;
+            // We want to increment by steps of a, which = 2i + 3
+            for j in (start..num_elements).step_by(2 * i + 3) {
                 is_prime[j] = false;
             }
         }
     }
-    for (i, is_prime) in is_prime.iter().enumerate().skip(2) {
+
+    let mut primes = vec![2];
+    for (i, is_prime) in is_prime.iter().enumerate() {
         if *is_prime {
-            primes.push(i);
+            // 2i + 3 = a
+            primes.push(2 * i + 3);
         }
     }
     primes
@@ -108,7 +120,7 @@ mod tests {
 
     #[test]
     fn get_primes_100() {
-        assert_eq!(&PRIMES_TO_100, &get_primes(100).as_slice())
+        assert_eq!(&PRIMES_TO_100, &get_primes(100).as_slice());
     }
 
     #[test]
