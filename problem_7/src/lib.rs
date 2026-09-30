@@ -1,4 +1,4 @@
-use common::fill_primes;
+use common::primes::fill_primes;
 
 pub fn find_nth_prime(n: usize) -> usize {
     find_nth_prime_using_ratio(n, 2)

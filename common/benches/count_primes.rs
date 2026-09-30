@@ -1,5 +1,5 @@
 #[allow(deprecated)]
-use common::{get_primes, get_primes_slow};
+use common::primes::{get_primes, get_primes_slow};
 use criterion::{BenchmarkId, Criterion, criterion_group, criterion_main};
 use std::hint::black_box;
 
