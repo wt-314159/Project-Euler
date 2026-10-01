@@ -15,3 +15,7 @@ harness = false
 [[bench]]
 name = "count_primes"
 harness = false
+
+[[bench]]
+name = "triangle_divisors"
+harness = false
