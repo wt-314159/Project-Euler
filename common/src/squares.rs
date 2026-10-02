@@ -21,7 +21,7 @@ where
             // Check if sum is contained in list, if so, it's a pythagorean triplet
             if squares.contains(&sum) {
                 // Now we just need to determine if a + b + c = 1000
-                let c = sum.isqrt() as usize;
+                let c = sum.isqrt();
                 if predicate(a, b, c) {
                     return Some((a, b, c));
                 }

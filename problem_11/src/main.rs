@@ -38,15 +38,15 @@ fn parse_grid() -> Vec<Vec<u32>> {
     parsed
 }
 
-fn find_max_product(grid: &Vec<Vec<u32>>, num_neighbours: usize) -> u32 {
+fn find_max_product(grid: &[Vec<u32>], num_neighbours: usize) -> u32 {
     let height = grid.len();
     let width = grid.first().expect("Empty grid!").len();
 
     let mut max_product = 0;
     // Try horizontal neighbours first
-    for r in 0..height {
+    for row in grid.iter() {
         for c in 0..=width - num_neighbours {
-            let product: u32 = grid[r].iter().skip(c).take(num_neighbours).product();
+            let product: u32 = row.iter().skip(c).take(num_neighbours).product();
             if product > max_product {
                 max_product = product;
             }

@@ -36,7 +36,7 @@ fn get_collatz_length(lengths: &mut Vec<usize>, num: usize) -> usize {
     if num.is_multiple_of(2) {
         value = 1 + get_collatz_length(lengths, num / 2);
     } else {
-        value = 2 + get_collatz_length(lengths, (3 * num + 1) / 2);
+        value = 2 + get_collatz_length(lengths, (3 * num).div_ceil(2));
     }
     if num < lengths.len() {
         lengths[num] = value;

@@ -31,7 +31,7 @@ pub fn find_triangle_number_divisors(num_divisors: usize) -> usize {
         let mut dn1 = 1;
         for prime in primes.iter() {
             if prime * prime > n1 {
-                dn1 = 2 * dn1;
+                dn1 *= 2;
                 break;
             }
 

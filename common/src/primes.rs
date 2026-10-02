@@ -8,15 +8,15 @@ pub fn is_prime_eratosthenes(num: usize) -> bool {
 
 pub fn is_prime(num: usize) -> bool {
     if num < 2 {
-        return false;
+        false
     } else if num < 4 {
-        return true;
+        true
     } else if num.is_multiple_of(2) {
-        return false;
+        false
     } else if num < 9 {
-        return true; // have already ruled out all non-primes less than 9
+        true // have already ruled out all non-primes less than 9
     } else if num.is_multiple_of(3) {
-        return false;
+        false
     } else {
         let max = num.isqrt();
         let mut i = 5;
@@ -29,7 +29,7 @@ pub fn is_prime(num: usize) -> bool {
             }
             i += 6;
         }
-        return true;
+        true
     }
 }
 
