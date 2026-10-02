@@ -20,14 +20,9 @@ fn count_lattice_options(size: u128) -> u128 {
     // gets cancelled out anyway
 
     let mut total: u128 = 1;
-    for i in size + 1..=2 * size {
-        total = total.checked_mul(i).expect("Overflowed u128!");
+    for i in 1..=size {
+        total = total.checked_mul(size + i).expect("Overflowed u128!");
+        total /= i;
     }
-    // now to divide by n!
-    // (if above didn't overflow, this shouldn't do)
-    let mut f: u128 = 1;
-    for i in 2..=size {
-        f *= i;
-    }
-    total / f
+    total
 }
