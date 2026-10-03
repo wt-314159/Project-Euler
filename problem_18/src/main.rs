@@ -33,10 +33,10 @@ fn find_max_path(input: &[Vec<Node>]) -> Option<usize> {
             let cost = state.cost + neighbor.value;
             let heuristic = heuristic(neighbor, cost, num_rows);
             // If the neighbor is already in the queue and the cost is higher, skip it
-            if let Some((_, prev_state)) = queue.get(neighbor) {
-                if prev_state.cost >= cost {
-                    continue;
-                }
+            if let Some((_, prev_state)) = queue.get(neighbor)
+                && prev_state.cost >= cost
+            {
+                continue;
             }
             queue.push(neighbor, NodeState { cost, heuristic });
         }
@@ -109,6 +109,7 @@ fn get_input() -> Vec<Vec<Node>> {
     parse_input(input)
 }
 
+#[allow(dead_code)]
 fn get_test_input() -> Vec<Vec<Node>> {
     let input = "3\n7 4\n2 4 6\n8 5 9 3";
     parse_input(input)
