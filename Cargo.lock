@@ -467,10 +467,20 @@ dependencies = [
 [[package]]
 name = "problem_21"
 version = "0.1.0"
+dependencies = [
+ "common",
+]
 
 [[package]]
 name = "problem_22"
 version = "0.1.0"
+
+[[package]]
+name = "problem_23"
+version = "0.1.0"
+dependencies = [
+ "common",
+]
 
 [[package]]
 name = "problem_3"
