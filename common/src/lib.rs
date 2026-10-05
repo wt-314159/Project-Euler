@@ -1,3 +1,5 @@
+use num_bigint::BigUint;
+
 pub mod combinatorics;
 pub mod primes;
 pub mod squares;
@@ -43,4 +45,59 @@ pub fn find_abundant_numbers(limit: usize) -> Vec<usize> {
         }
     }
     abundant_numbers
+}
+
+pub struct BigFibonacci {
+    prev: BigUint,
+    curr: BigUint,
+}
+
+impl Iterator for BigFibonacci {
+    type Item = BigUint;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.curr == BigUint::ZERO {
+            self.curr = BigUint::ONE;
+        } else {
+            let mut temp = self.curr.clone();
+            std::mem::swap(&mut self.prev, &mut temp);
+            self.curr += temp;
+        }
+        Some(self.curr.clone())
+    }
+}
+
+impl BigFibonacci {
+    pub fn new() -> Self {
+        BigFibonacci {
+            prev: BigUint::ZERO,
+            curr: BigUint::ZERO,
+        }
+    }
+}
+
+pub struct Fibonacci {
+    prev: usize,
+    curr: usize,
+}
+
+impl Iterator for Fibonacci {
+    type Item = usize;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.curr == 0 {
+            self.curr = 1;
+        } else {
+            let temp = self.prev;
+            self.prev = self.curr;
+            self.curr += temp;
+        }
+        Some(self.curr)
+    }
+}
+
+impl Fibonacci {
+    pub fn new() -> Self {
+        Fibonacci { prev: 0, curr: 0 }
+    }
 }

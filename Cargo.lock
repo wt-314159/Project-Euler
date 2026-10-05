@@ -123,6 +123,7 @@ name = "common"
 version = "0.1.0"
 dependencies = [
  "criterion",
+ "num-bigint",
 ]
 
 [[package]]
@@ -493,6 +494,7 @@ dependencies = [
 name = "problem_25"
 version = "0.1.0"
 dependencies = [
+ "common",
  "num-bigint",
 ]
 
