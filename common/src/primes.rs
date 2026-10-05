@@ -34,6 +34,9 @@ pub fn is_prime(num: usize) -> bool {
 }
 
 pub fn get_primes(max: usize) -> Vec<usize> {
+    if max < 2 {
+        return vec![];
+    }
     let max = max + 1; // Do this to include the specified max
     // Only store the odd numbers, since evens (except 2) aren't prime
     // nth index stores the number 2n + 3 e.g. (3, 5, 7, ...)
