@@ -503,6 +503,13 @@ name = "problem_26"
 version = "0.1.0"
 
 [[package]]
+name = "problem_27"
+version = "0.1.0"
+dependencies = [
+ "common",
+]
+
+[[package]]
 name = "problem_3"
 version = "0.1.0"
 
