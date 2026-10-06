@@ -2,7 +2,10 @@ use common::primes::{fill_primes, get_primes};
 
 fn main() {
     let mut checker = PrimeChecker::with_initial_max(10_000);
+    let start = std::time::Instant::now();
     checker.find_most_primes();
+    let time = std::time::Instant::now().duration_since(start);
+    println!("Results found in {time:?}");
 }
 
 struct PrimeChecker {
@@ -21,7 +24,7 @@ impl PrimeChecker {
             fill_primes(&mut self.primes, num);
             self.max = num
         }
-        self.primes.contains(&num)
+        self.primes.binary_search(&num).is_ok()
     }
 
     fn find_most_primes(&mut self) {
@@ -37,7 +40,11 @@ impl PrimeChecker {
             .map(|p| *p as isize)
             .collect();
 
-        for a in -999..1000 {
+        // a must be odd, otherwise the output of n^2 + an + b
+        // switches back and forth between odd and even, and so
+        // can't produce a sequence of primes longer than 3
+        // (odd prime, then 2 - the only even prime, then another odd prime)
+        for a in (-999..1000).step_by(2) {
             for b in b_range.iter() {
                 let num_primes = self.count_primes(a, *b);
                 if num_primes > max_primes {
