@@ -5,6 +5,12 @@ pub mod primes;
 pub mod squares;
 pub mod triangle_numbers;
 
+pub fn unordered_eq<T: Ord>(a: &mut [T], b: &mut [T]) -> bool {
+    a.sort();
+    b.sort();
+    a == b
+}
+
 pub fn find_divisors_sum(num: usize) -> usize {
     let mut sum = 1;
     let limit = num.isqrt(); // only need to check up to square root
@@ -99,5 +105,24 @@ impl Iterator for Fibonacci {
 impl Fibonacci {
     pub fn new() -> Self {
         Fibonacci { prev: 0, curr: 0 }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn unordered_eq_test() {
+        let mut a = vec![4, 2, 9, 8, 2, 7, 4];
+        let mut b = vec![2, 9, 4, 7, 4, 2, 8];
+        assert!(unordered_eq(&mut a, &mut b))
+    }
+
+    #[test]
+    fn unordered_eq_different() {
+        let mut a = vec![1, 2, 3, 4];
+        let mut b = vec![5, 6, 7, 8];
+        assert!(!unordered_eq(&mut a, &mut b));
     }
 }
