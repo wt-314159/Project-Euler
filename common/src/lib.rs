@@ -5,6 +5,18 @@ pub mod primes;
 pub mod squares;
 pub mod triangle_numbers;
 
+pub fn digits(mut n: u32) -> impl Iterator<Item = u32> {
+    std::iter::from_fn(move || {
+        if n > 0 {
+            let digit = n % 10;
+            n /= 10;
+            Some(digit)
+        } else {
+            None
+        }
+    })
+}
+
 pub fn unordered_eq<T: Ord>(a: &mut [T], b: &mut [T]) -> bool {
     a.sort();
     b.sort();

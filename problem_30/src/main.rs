@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use common::unordered_eq;
+use common::{digits, unordered_eq};
 use itertools::Itertools;
 
 fn main() {
@@ -40,16 +40,4 @@ fn find_numbers(map: HashMap<u32, u32>, max_digits: u32) -> Vec<u32> {
         }
     }
     nums
-}
-
-fn digits(mut n: u32) -> impl Iterator<Item = u32> {
-    std::iter::from_fn(move || {
-        if n > 0 {
-            let digit = n % 10;
-            n /= 10;
-            Some(digit)
-        } else {
-            None
-        }
-    })
 }
