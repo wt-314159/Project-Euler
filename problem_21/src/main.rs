@@ -1,10 +1,10 @@
-use common::find_divisors_sum;
+use common::fractions::find_divisors;
 
 fn main() {
     let limit = 10_000;
     let mut proper_divisor_sums = vec![0; limit + 1];
     for i in 1..=limit {
-        let sum = find_divisors_sum(i);
+        let sum = find_divisors(i).sum();
         proper_divisor_sums[i] = sum;
     }
 
@@ -23,22 +23,4 @@ fn main() {
     }
 
     println!("Sum of amicable numbers: {sum}");
-}
-
-#[allow(dead_code)]
-fn find_divisors(num: usize) -> Vec<usize> {
-    let mut divisors = vec![1]; // 1 divides all numbers
-    let limit = num.isqrt(); // Only need to check up to square root
-    for i in 2..limit {
-        if num.is_multiple_of(i) {
-            let other_divisor = num / i;
-            divisors.push(i);
-            divisors.push(other_divisor);
-        }
-    }
-    // check if square number, if so, add square root
-    if num.is_multiple_of(limit) {
-        divisors.push(limit);
-    }
-    divisors
 }
