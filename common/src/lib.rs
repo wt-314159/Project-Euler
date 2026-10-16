@@ -7,6 +7,14 @@ pub mod primes;
 pub mod squares;
 pub mod triangle_numbers;
 
+pub fn factorial(num: u64) -> u64 {
+    (2..=num).fold(1, |prod, n| prod * n)
+}
+
+pub fn big_factorial(num: u32) -> BigUint {
+    (2..=num).fold(BigUint::ONE, |prod, n| prod * n)
+}
+
 pub fn digits(mut n: u32) -> impl Iterator<Item = u32> {
     std::iter::from_fn(move || {
         if n > 0 {
