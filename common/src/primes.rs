@@ -1,3 +1,7 @@
+use std::collections::HashMap;
+
+use crate::{combinatorics::RotationsEx, digits, from_digits};
+
 /// warning: much slower than testing primality through trial division,
 /// use `is_prime` instead.
 #[deprecated(note = "Please use `is_prime` instead.")]
@@ -67,6 +71,54 @@ pub fn get_primes(max: usize) -> Vec<usize> {
         }
     }
     primes
+}
+
+pub fn get_circular_primes(max: usize) -> Vec<usize> {
+    let primes = get_primes(max);
+    let prime_map: HashMap<_, _> = primes
+        .iter()
+        .copied()
+        .enumerate()
+        .map(|(i, val)| (val, i))
+        .collect();
+    let mut checked = vec![false; primes.len()];
+    let mut circular_primes = Vec::new();
+    for (i, prime) in primes.iter().enumerate() {
+        if checked[i] {
+            continue;
+        }
+        // All single digit primes are circular
+        if *prime < 10 {
+            circular_primes.push(*prime);
+            continue;
+        }
+
+        let mut digits: Vec<u32> = digits(*prime as u32).collect();
+        // digits gets digits of number in reverse order (least significant first)
+        digits.reverse();
+        let mut circ_primes = Vec::new();
+        let mut all_circular = true;
+        // Iterate through each rotation of digits
+        digits.for_each_rotation(|rotate| {
+            let rotate = from_digits(rotate) as usize;
+            if prime_map.contains_key(&(rotate)) {
+                // Make sure we don't get duplicates for primes like 11,
+                // where changing the order of the digits doesn't change the number
+                if rotate != *prime || circ_primes.is_empty() {
+                    circ_primes.push(rotate);
+                }
+                // Mark the prime as checked (whether circular or not)
+                checked[prime_map[&rotate]] = true;
+            } else {
+                all_circular = false;
+            }
+        });
+
+        if all_circular {
+            circular_primes.extend(circ_primes);
+        }
+    }
+    circular_primes
 }
 
 /// warning: much slower than getting primes using seive of eratosthenes

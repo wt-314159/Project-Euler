@@ -27,6 +27,10 @@ pub fn digits(mut n: u32) -> impl Iterator<Item = u32> {
     })
 }
 
+pub fn from_digits(digits: &[u32]) -> u32 {
+    digits.iter().fold(0, |acc, d| acc * 10 + d)
+}
+
 pub fn unordered_eq<T: Ord>(a: &mut [T], b: &mut [T]) -> bool {
     a.sort();
     b.sort();
