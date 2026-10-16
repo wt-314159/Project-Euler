@@ -28,10 +28,10 @@ fn get_fraction_cycle_length(denom: usize) -> Option<usize> {
         }
         let digit = remain / denom;
         remain -= digit * denom;
-        if map.contains_key(&remain) {
-            return Some(count - map[&remain]);
+        if let std::collections::hash_map::Entry::Vacant(e) = map.entry(remain) {
+            e.insert(count);
         } else {
-            map.insert(remain, count);
+            return Some(count - map[&remain]);
         }
     }
 }

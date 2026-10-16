@@ -2,11 +2,9 @@ use common::fractions::find_divisors;
 
 fn main() {
     let limit = 10_000;
-    let mut proper_divisor_sums = vec![0; limit + 1];
-    for i in 1..=limit {
-        let sum = find_divisors(i).sum();
-        proper_divisor_sums[i] = sum;
-    }
+    let proper_divisor_sums: Vec<_> = (0..=limit)
+        .map(|i| find_divisors(i).sum::<usize>())
+        .collect();
 
     // find amicable numbers
     let mut sum = 0;

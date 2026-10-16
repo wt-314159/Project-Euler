@@ -9,7 +9,7 @@ pub fn simplify_fraction(num: u32, denom: u32) -> (u32, u32) {
             return (num / i, denom / i);
         }
     }
-    return (num, denom);
+    (num, denom)
 }
 
 pub fn find_all_simplifications(num: u32, denom: u32) -> impl Iterator<Item = (u32, u32)> {

@@ -11,7 +11,7 @@ fn count_sundays() -> usize {
     while year < 2001 {
         let days = get_number_of_days_in_month(month, year);
         day += days;
-        day = day % 7;
+        day %= 7;
         if day == 0 {
             count += 1;
         }

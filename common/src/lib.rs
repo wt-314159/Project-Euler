@@ -8,7 +8,7 @@ pub mod squares;
 pub mod triangle_numbers;
 
 pub fn factorial(num: u64) -> u64 {
-    (2..=num).fold(1, |prod, n| prod * n)
+    (2..=num).product()
 }
 
 pub fn big_factorial(num: u32) -> BigUint {
@@ -103,6 +103,12 @@ impl BigFibonacci {
     }
 }
 
+impl Default for BigFibonacci {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 pub struct Fibonacci {
     prev: usize,
     curr: usize,
@@ -126,6 +132,12 @@ impl Iterator for Fibonacci {
 impl Fibonacci {
     pub fn new() -> Self {
         Fibonacci { prev: 0, curr: 0 }
+    }
+}
+
+impl Default for Fibonacci {
+    fn default() -> Self {
+        Self::new()
     }
 }
 

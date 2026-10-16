@@ -24,7 +24,7 @@ fn get_max_digits() -> u32 {
 
 fn find_digit_factorials() -> impl Iterator<Item = u32> {
     let max_digits = get_max_digits();
-    let max_num = 10u32.pow(max_digits as u32);
+    let max_num = 10u32.pow(max_digits);
     let digit_facts: [u32; 10] = core::array::from_fn(|i| factorial(i as u64) as u32);
     (11..max_num).filter(move |n| is_sum_of_digit_factorials(*n, &digit_facts))
 }
