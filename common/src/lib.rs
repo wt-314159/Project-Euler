@@ -27,8 +27,34 @@ pub fn digits(mut n: u32) -> impl Iterator<Item = u32> {
     })
 }
 
+pub fn digits_big_endian(n: u32) -> impl Iterator<Item = u32> {
+    let pow = if n == 0 { 0 } else { n.ilog10() };
+    let mut div = 10u32.pow(pow);
+    let mut prev = 0;
+    let mut last = true;
+    std::iter::from_fn(move || {
+        if div == 1 && !last {
+            None
+        } else {
+            let temp = prev * 10;
+            prev = n / div;
+            let digit = prev - temp;
+            if div == 1 {
+                last = false;
+            } else {
+                div /= 10;
+            }
+            Some(digit)
+        }
+    })
+}
+
 pub fn from_digits(digits: &[u32]) -> u32 {
     digits.iter().fold(0, |acc, d| acc * 10 + d)
+}
+
+pub fn get_bits(num: u32) -> impl DoubleEndedIterator<Item = u8> {
+    (0..32).rev().map(move |i| ((num >> i) & 1) as u8)
 }
 
 pub fn unordered_eq<T: Ord>(a: &mut [T], b: &mut [T]) -> bool {
@@ -119,5 +145,14 @@ mod tests {
         let mut a = vec![1, 2, 3, 4];
         let mut b = vec![5, 6, 7, 8];
         assert!(!unordered_eq(&mut a, &mut b));
+    }
+
+    #[test]
+    fn ordered_digits_test() {
+        let num = 1234567890;
+        assert_eq!(
+            vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
+            digits_big_endian(num).collect::<Vec<_>>()
+        )
     }
 }

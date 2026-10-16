@@ -126,13 +126,4 @@ mod tests {
         test.nth_rotation(10);
         assert_eq!(vec![9, 0, 1, 2, 3, 4, 5, 6, 7, 8], test);
     }
-
-    #[test]
-    fn rotation_order() {
-        let mut test = vec![1, 3];
-        test.for_each_rotation(|rotate| {
-            println!("{rotate:?}");
-        });
-        assert!(false);
-    }
 }
