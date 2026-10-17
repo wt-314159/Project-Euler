@@ -1,3 +1,5 @@
+use std::ops::{Add, Mul};
+
 use fractions::find_divisors;
 use num_bigint::BigUint;
 
@@ -7,24 +9,127 @@ pub mod primes;
 pub mod squares;
 pub mod triangle_numbers;
 
-pub fn factorial(num: u64) -> u64 {
-    (2..=num).product()
+pub trait Integer: Sized + Copy + PartialOrd + Mul<Output = Self> + Add<Output = Self> {
+    const ZERO: Self;
+    const ONE: Self;
+    const TEN: Self;
+    fn checked_factorial(self) -> Option<Self>;
+    fn unchecked_factorial(self) -> Self;
+    fn big_factorial(self) -> BigUint;
+    fn is_prime(&self) -> bool;
+    fn digits(self) -> impl Iterator<Item = Self>;
+    fn gcd(self, other: &Self) -> Self;
 }
 
-pub fn big_factorial(num: u32) -> BigUint {
-    (2..=num).fold(BigUint::ONE, |prod, n| prod * n)
+macro_rules! impl_integer {
+    ($($t:ty),* $(,)?) => {
+        $(
+            impl Integer for $t {
+                const ZERO: Self = 0;
+                const ONE: Self = 1;
+                const TEN: Self = 10;
+
+                fn checked_factorial(self) -> Option<Self> {
+                    (2..=self).try_fold(Self::ONE, |acc, n| acc.checked_mul(n))
+                }
+
+                fn unchecked_factorial(self) -> Self {
+                    (2..=self).product()
+                }
+
+                fn big_factorial(self) -> BigUint {
+                    (2..=self).fold(BigUint::ONE, |acc, n| acc * n)
+                }
+
+                fn is_prime(&self) -> bool {
+                    if *self < 2 {
+                        false
+                    } else if *self < 4 {
+                        true
+                    } else if self.is_multiple_of(2) {
+                        false
+                    } else if *self < 9 {
+                        true // have already ruled out all non-primes less than 9
+                    } else if self.is_multiple_of(3) {
+                        false
+                    } else {
+                        let max = self.isqrt();
+                        let mut i = 5;
+                        while i <= max {
+                            if self.is_multiple_of(i) {
+                                return false;
+                            }
+                            if self.is_multiple_of(i + 2) {
+                                return false;
+                            }
+                            i += 6;
+                        }
+                        true
+                    }
+                }
+
+                fn digits(mut self) -> impl Iterator<Item = Self> {
+                    std::iter::from_fn(move || {
+                        if self > 0 {
+                            let digit = self % 10;
+                            self /= 10;
+                            Some(digit)
+                        } else {
+                            None
+                        }
+                    })
+                }
+
+                fn gcd(self, other: &Self) -> Self {
+                    if self == 0 {
+                        return *other;
+                    } else if *other == 0 {
+                        return self;
+                    }
+
+                    let (mut a, mut b) = (self, *other);
+                    // Bit shift by number of trailing zeros
+                    // (same as repeatedly dividing by 2 until odd)
+                    let a_zeros = a.trailing_zeros();
+                    a >>= a_zeros;
+                    let b_zeros = b.trailing_zeros();
+                    b >>= b_zeros;
+
+                    let l_shift = a_zeros.min(b_zeros);
+
+                    loop {
+                        // Ensure a <= b
+                        if a > b {
+                            (a, b) = (b, a);
+                        }
+                        b -= a;
+
+                        if b == 0 {
+                            return a << l_shift;
+                        }
+                        a >>= a.trailing_zeros();
+                    }
+                }
+            }
+        )*
+    }
 }
 
-pub fn digits(mut n: u32) -> impl Iterator<Item = u32> {
-    std::iter::from_fn(move || {
-        if n > 0 {
-            let digit = n % 10;
-            n /= 10;
-            Some(digit)
-        } else {
-            None
-        }
-    })
+impl_integer!(u32, u64, usize);
+
+pub trait IntegerSliceExt<T: Integer> {
+    fn gcd(&self) -> T;
+    fn from_digits(&self) -> T;
+}
+
+impl<T: Integer> IntegerSliceExt<T> for [T] {
+    fn gcd(&self) -> T {
+        self.iter().fold(T::ZERO, T::gcd)
+    }
+
+    fn from_digits(&self) -> T {
+        self.iter().fold(T::ZERO, |acc, d| acc * T::TEN + *d)
+    }
 }
 
 pub fn digits_big_endian(n: u32) -> impl Iterator<Item = u32> {
@@ -166,5 +271,17 @@ mod tests {
             vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
             digits_big_endian(num).collect::<Vec<_>>()
         )
+    }
+
+    #[test]
+    fn gcd_test() {
+        assert_eq!(6, 24u32.gcd(&30));
+        assert_eq!(7, 28u32.gcd(&21));
+    }
+
+    #[test]
+    fn gcd_slice_test() {
+        assert_eq!(2, vec![28u32, 34, 14].gcd());
+        assert_eq!(6, vec![42u32, 66, 96].gcd());
     }
 }

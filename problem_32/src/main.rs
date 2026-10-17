@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-use common::unordered_eq;
+use common::{Integer, unordered_eq};
 use itertools::Itertools;
 
 fn main() {
@@ -43,7 +43,7 @@ fn find_pandigital_products() -> Vec<(u32, u32, u32)> {
                     .copied()
                     .copied()
                     .collect();
-                let mut digits: Vec<_> = common::digits(product).collect();
+                let mut digits: Vec<_> = product.digits().collect();
                 if unordered_eq(&mut remaining, &mut digits) {
                     products.push((num, num2, product));
                 }

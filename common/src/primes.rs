@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::{combinatorics::RotationsEx, digits, from_digits};
+use crate::{Integer, IntegerSliceExt, combinatorics::RotationsEx};
 
 /// warning: much slower than testing primality through trial division,
 /// use `is_prime` instead.
@@ -93,14 +93,14 @@ pub fn get_circular_primes(max: usize) -> Vec<usize> {
             continue;
         }
 
-        let mut digits: Vec<u32> = digits(*prime as u32).collect();
+        let mut digits: Vec<_> = prime.digits().collect();
         // digits gets digits of number in reverse order (least significant first)
         digits.reverse();
         let mut circ_primes = Vec::new();
         let mut all_circular = true;
         // Iterate through each rotation of digits
         digits.for_each_rotation(|rotate| {
-            let rotate = from_digits(rotate) as usize;
+            let rotate = rotate.from_digits();
             if prime_map.contains_key(&(rotate)) {
                 // Make sure we don't get duplicates for primes like 11,
                 // where changing the order of the digits doesn't change the number

@@ -1,4 +1,4 @@
-use common::{digits, fractions::simplify_fraction};
+use common::{Integer, fractions::simplify_fraction};
 
 fn main() {
     let fracts = find_cancelling_fracts();
@@ -15,11 +15,11 @@ fn main() {
 
 fn find_cancelling_fracts() -> Vec<(u32, u32)> {
     let mut fracts = Vec::new();
-    for num in 10..=98 {
-        let num_digits: Vec<_> = digits(num).collect();
+    for num in 10..=98u32 {
+        let num_digits: Vec<_> = num.digits().collect();
         for denom in (num + 1)..=99 {
             // First check if num and denom share a digit, if not, we can't cancel it
-            let denom_digits: Vec<_> = digits(denom).collect();
+            let denom_digits: Vec<_> = denom.digits().collect();
             let common_digits: Vec<_> = denom_digits
                 .iter()
                 .filter(|x| num_digits.contains(x))
