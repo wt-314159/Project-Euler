@@ -19,7 +19,7 @@ fn find_double_palindromes(max: u32) -> impl Iterator<Item = u32> {
 }
 
 fn is_palindrome(num: u32) -> bool {
-    num.digits()
+    num.digits_rev()
         .zip(digits_big_endian(num))
         .all(|(a, b)| a == b)
 }

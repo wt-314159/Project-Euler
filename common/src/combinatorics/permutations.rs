@@ -68,6 +68,7 @@ where
 
     fn next(&mut self) -> Option<Self::Item> {
         if !self.started {
+            self.items.sort();
             self.started = true;
             return Some(());
         }
@@ -80,7 +81,6 @@ where
     T: Ord,
 {
     pub fn new(items: &'a mut [T]) -> Self {
-        items.sort();
         Permutations {
             items,
             started: false,

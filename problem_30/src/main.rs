@@ -33,7 +33,7 @@ fn find_numbers(map: HashMap<u32, u32>, max_digits: u32) -> Vec<u32> {
     for i in 1usize..=max_digits as usize {
         for mut x in (0u32..10).combinations_with_replacement(i) {
             let sum: u32 = x.iter().map(|d| map.get(d).unwrap()).sum();
-            let mut digits: Vec<_> = sum.digits().collect();
+            let mut digits: Vec<_> = sum.digits_rev().collect();
             if unordered_eq(&mut x, &mut digits) {
                 nums.push(sum);
             }

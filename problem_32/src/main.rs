@@ -43,7 +43,7 @@ fn find_pandigital_products() -> Vec<(u32, u32, u32)> {
                     .copied()
                     .copied()
                     .collect();
-                let mut digits: Vec<_> = product.digits().collect();
+                let mut digits: Vec<_> = product.digits_rev().collect();
                 if unordered_eq(&mut remaining, &mut digits) {
                     products.push((num, num2, product));
                 }

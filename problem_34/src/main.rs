@@ -33,5 +33,5 @@ fn find_digit_factorials() -> impl Iterator<Item = u32> {
 }
 
 fn is_sum_of_digit_factorials(num: u32, digit_facts: &[u32; 10]) -> bool {
-    num.digits().map(|d| digit_facts[d as usize]).sum::<u32>() == num
+    num.digits_rev().map(|d| digit_facts[d as usize]).sum::<u32>() == num
 }

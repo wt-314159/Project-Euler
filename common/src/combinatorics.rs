@@ -1,8 +1,10 @@
 pub use permutations::*;
+pub use permutations_rev::*;
 pub use rotations::*;
 use std::ops::ControlFlow;
 
 mod permutations;
+mod permutations_rev;
 mod rotations;
 
 pub trait Fallible {

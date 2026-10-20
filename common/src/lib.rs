@@ -17,7 +17,8 @@ pub trait Integer: Sized + Copy + PartialOrd + Mul<Output = Self> + Add<Output =
     fn unchecked_factorial(self) -> Self;
     fn big_factorial(self) -> BigUint;
     fn is_prime(&self) -> bool;
-    fn digits(self) -> impl Iterator<Item = Self>;
+    fn digits_rev(self) -> impl Iterator<Item = Self>;
+    fn digits_vec(self) -> Vec<Self>;
     fn gcd(self, other: &Self) -> Self;
 }
 
@@ -68,7 +69,13 @@ macro_rules! impl_integer {
                     }
                 }
 
-                fn digits(mut self) -> impl Iterator<Item = Self> {
+                fn digits_vec(self) -> Vec<Self> {
+                    let mut digits: Vec<_> = self.digits_rev().collect();
+                    digits.reverse();
+                    digits
+                }
+
+                fn digits_rev(mut self) -> impl Iterator<Item = Self> {
                     std::iter::from_fn(move || {
                         if self > 0 {
                             let digit = self % 10;

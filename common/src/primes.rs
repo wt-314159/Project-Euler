@@ -93,7 +93,7 @@ pub fn get_circular_primes(max: usize) -> Vec<usize> {
             continue;
         }
 
-        let mut digits: Vec<_> = prime.digits().collect();
+        let mut digits: Vec<_> = prime.digits_rev().collect();
         // digits gets digits of number in reverse order (least significant first)
         digits.reverse();
         let mut circ_primes = Vec::new();
