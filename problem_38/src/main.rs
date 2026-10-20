@@ -1,14 +1,6 @@
-use common::{
-    Integer, IntegerSliceExt,
-    combinatorics::{PermutationsEx, PermutationsRevEx},
-    from_digits,
-};
+use common::{Integer, IntegerSliceExt, combinatorics::PermutationsRevEx};
 
 fn main() {
-    let test: Vec<_> = 918273645u32.digits_vec();
-    let test = is_pandigital_multiple(&test);
-    println!("{test}");
-
     if let Some(large) = find_largest_pandigital_multiple() {
         println!("Largest pandigital multiple: {large}");
     } else {
