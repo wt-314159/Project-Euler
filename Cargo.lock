@@ -611,6 +611,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "problem_41"
+version = "0.1.0"
+dependencies = [
+ "common",
+]
+
+[[package]]
 name = "problem_5"
 version = "0.1.0"
 
