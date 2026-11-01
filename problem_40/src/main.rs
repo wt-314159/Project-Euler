@@ -29,7 +29,7 @@ fn get_nth_digit(n: u32) -> Option<u32> {
             idx += extra_idx;
             // println!("stopping exactly, extra_idx: {extra_idx}");
             let digits = idx.digits_vec();
-            return digits.get(0).copied();
+            return digits.first().copied();
         }
         // println!("t: {t}, extra: {extra}, d: {d}, extra_idx: {extra_idx}");
         t += extra;

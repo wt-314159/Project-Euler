@@ -1,7 +1,4 @@
-use common::{
-    Integer, IntegerSliceExt,
-    combinatorics::{PermutationsEx, count_permutations},
-};
+use common::{IntegerSliceExt, combinatorics::PermutationsEx};
 
 const PRIMES: [u32; 7] = [2, 3, 5, 7, 11, 13, 17];
 
@@ -10,8 +7,8 @@ fn main() {
     let mut sum = 0;
     let start = std::time::Instant::now();
     digits.for_each_permutation(|d| {
-        if is_substring_divisible(&d) {
-            let num = d.from_digits();
+        if is_substring_divisible(d) {
+            let num = d.to_number();
             sum += num as u64;
         }
     });
@@ -22,7 +19,7 @@ fn main() {
 fn is_substring_divisible(digits: &[u32]) -> bool {
     assert!(digits.len() == 10);
     digits.windows(3).skip(1).enumerate().rev().all(|(i, d)| {
-        let num = d.from_digits();
+        let num = d.to_number();
         num % PRIMES[i] == 0
     })
 }

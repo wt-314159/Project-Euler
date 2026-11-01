@@ -100,7 +100,7 @@ pub fn get_circular_primes(max: usize) -> Vec<usize> {
         let mut all_circular = true;
         // Iterate through each rotation of digits
         digits.for_each_rotation(|rotate| {
-            let rotate = rotate.from_digits();
+            let rotate = rotate.to_number();
             if prime_map.contains_key(&(rotate)) {
                 // Make sure we don't get duplicates for primes like 11,
                 // where changing the order of the digits doesn't change the number
