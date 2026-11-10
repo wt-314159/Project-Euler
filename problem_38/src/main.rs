@@ -13,7 +13,7 @@ fn find_largest_pandigital_multiple() -> Option<u32> {
     let mut answer = None;
     digits.try_for_each_permutation_rev(|d| {
         if is_pandigital_multiple(d) {
-            answer = Some(d.from_digits());
+            answer = Some(d.to_number());
             None
         } else {
             Some(())
@@ -26,7 +26,7 @@ fn is_pandigital_multiple(digits: &[u32]) -> bool {
     // take the first n digits of the number (for n from 1 to 4)
     for i in 1..=4 {
         // Concatenate those digits into a number
-        let num = digits[0..i].from_digits();
+        let num = digits[0..i].to_number();
         let mut idx = i;
         // Then progressively multiply it by 2, 3, 4... and match
         // the results against the remaining digits

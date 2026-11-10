@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-const A_VALUE: u8 = 'A' as u8;
+const A_VALUE: u8 = b'A';
 
 fn main() {
     let words = include_str!("../0042_words.txt");

@@ -6,7 +6,7 @@ fn main() {
     let mut digits = 987654321u32.digits_vec();
     while largest_prime == 0 {
         digits.try_for_each_permutation_rev(|d| {
-            let num = d.from_digits();
+            let num = d.to_number();
             if num.is_prime() {
                 largest_prime = num;
                 println!("Found prime {num}");

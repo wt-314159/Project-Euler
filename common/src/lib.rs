@@ -132,7 +132,7 @@ impl_integer!(u32, u64, usize);
 
 pub trait IntegerSliceExt<T: Integer> {
     fn gcd(&self) -> T;
-    fn from_digits(&self) -> T;
+    fn to_number(&self) -> T;
 }
 
 impl<T: Integer> IntegerSliceExt<T> for [T] {
@@ -140,7 +140,7 @@ impl<T: Integer> IntegerSliceExt<T> for [T] {
         self.iter().fold(T::ZERO, T::gcd)
     }
 
-    fn from_digits(&self) -> T {
+    fn to_number(&self) -> T {
         self.iter().fold(T::ZERO, |acc, d| acc * T::TEN + *d)
     }
 }
