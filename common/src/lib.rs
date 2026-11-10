@@ -18,6 +18,7 @@ pub trait Integer: Sized + Copy + PartialOrd + Mul<Output = Self> + Add<Output =
     fn big_factorial(self) -> BigUint;
     fn is_prime(&self) -> bool;
     fn is_square(&self) -> bool;
+    fn exact_sqrt(&self) -> Option<Self>;
     fn digits_rev(self) -> impl Iterator<Item = Self>;
     fn digits_vec(self) -> Vec<Self>;
     fn gcd(self, other: &Self) -> Self;
@@ -73,6 +74,15 @@ macro_rules! impl_integer {
                 fn is_square(&self) -> bool {
                     let root = self.isqrt();
                     root * root == *self
+                }
+
+                fn exact_sqrt(&self) -> Option<Self> {
+                    let root = self.isqrt();
+                    if root * root == *self {
+                        Some(root)
+                    } else {
+                        None
+                    }
                 }
 
                 fn digits_vec(self) -> Vec<Self> {
