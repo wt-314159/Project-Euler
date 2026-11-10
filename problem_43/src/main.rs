@@ -1,7 +1,4 @@
-use common::{
-    Integer, IntegerSliceExt,
-    combinatorics::{PermutationsEx, count_permutations},
-};
+use common::{IntegerSliceExt, combinatorics::PermutationsEx};
 
 const PRIMES: [u32; 7] = [2, 3, 5, 7, 11, 13, 17];
 
