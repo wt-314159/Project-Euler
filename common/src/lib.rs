@@ -18,6 +18,9 @@ pub trait Integer: Sized + Copy + PartialOrd + Mul<Output = Self> + Add<Output =
     fn big_factorial(self) -> BigUint;
     fn is_prime(&self) -> bool;
     fn is_square(&self) -> bool;
+    fn is_triangular(&self) -> bool;
+    fn is_pentagonal(&self) -> bool;
+    fn is_hexagonal(&self) -> bool;
     fn exact_sqrt(&self) -> Option<Self>;
     fn digits_rev(self) -> impl Iterator<Item = Self>;
     fn digits_vec(self) -> Vec<Self>;
@@ -82,6 +85,33 @@ macro_rules! impl_integer {
                         Some(root)
                     } else {
                         None
+                    }
+                }
+
+                fn is_triangular(&self) -> bool {
+                    if let Some(root) = (1 + 8 * self).exact_sqrt() {
+                        (root - 1).is_multiple_of(2)
+                    } else {
+                        false
+                    }
+                }
+
+                fn is_pentagonal(&self) -> bool {
+                    // use quadratic formula, first check that the square
+                    // root resolves to an integer, then check  1 + root
+                    // is a multiple of 2a (which is 6)
+                    if let Some(root) = (1 + 24 * self).exact_sqrt() {
+                        (1 + root).is_multiple_of(6)
+                    } else {
+                        false
+                    }
+                }
+
+                fn is_hexagonal(&self) -> bool {
+                    if let Some(root) = (1 + 8 * self).exact_sqrt() {
+                        (1 + root).is_multiple_of(4)
+                    } else {
+                        false
                     }
                 }
 

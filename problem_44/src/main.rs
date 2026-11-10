@@ -19,23 +19,12 @@ fn find_pentagonal_numbers(limit: u32) -> Option<(u32, u32)> {
 
     for (idx, i) in numbers.iter().enumerate() {
         for j in numbers.iter().skip(idx + 1) {
-            if is_pentagonal(j - i) && is_pentagonal(j + i) {
+            if (j - i).is_pentagonal() && (j + i).is_pentagonal() {
                 return Some((*j, *i));
             }
         }
     }
     None
-}
-
-fn is_pentagonal(p: u32) -> bool {
-    // use quadratic formula, first check that the square
-    // root resolves to an integer, then check  1 + root
-    // is a multiple of 2a (which is 6)
-    if let Some(root) = (1 + 24 * p).exact_sqrt() {
-        (1 + root).is_multiple_of(6)
-    } else {
-        false
-    }
 }
 
 fn get_pentagonal_root(p: u32) -> u32 {
