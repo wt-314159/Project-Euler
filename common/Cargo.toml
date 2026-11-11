@@ -24,3 +24,7 @@ harness = false
 [[bench]]
 name = "get_squares"
 harness = false
+
+[[bench]]
+name = "prime_factors"
+harness = false

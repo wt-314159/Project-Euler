@@ -14,6 +14,9 @@ pub trait Primes: Integer {
     fn is_prime(&self) -> bool;
     fn get_primes(max: Self) -> Vec<Self>;
     fn fill_primes(primes: &mut Vec<Self>, max: Self);
+    fn get_prime_factors(&self) -> Vec<Self>;
+    /// Gets the distinct prime factors of a number, with their exponents
+    fn get_distinct_prime_factors(&self) -> HashMap<Self, usize>;
 }
 
 macro_rules! impl_primes {
@@ -116,6 +119,48 @@ macro_rules! impl_primes {
                             primes.push((i + start).try_into().expect("Failed to cast to Self"));
                         }
                     }
+                }
+
+                fn get_prime_factors(&self) -> Vec<Self> {
+                    let mut num = *self;
+                    let mut factors = Vec::new();
+                    while num % 2 == 0 {
+                        num /= 2;
+                        factors.push(2);
+                    }
+                    let mut i = 3;
+                    while i * i <= num {
+                        while num % i == 0 {
+                            num /= i;
+                            factors.push(i);
+                        }
+                        i += 2;
+                    }
+                    if num > 2 {
+                        factors.push(num);
+                    }
+                    factors
+                }
+
+                fn get_distinct_prime_factors(&self) -> std::collections::HashMap<Self, usize> {
+                    let mut num = *self;
+                    let mut factors = std::collections::HashMap::new();
+                    while num % 2 == 0 {
+                        num /= 2;
+                        *factors.entry(2).or_insert(0) += 1;
+                    }
+                    let mut i = 3;
+                    while i * i <= num {
+                        while num % i == 0 {
+                            num /= i;
+                            *factors.entry(i).or_insert(0) += 1;
+                        }
+                        i += 2;
+                    }
+                    if num > 2 {
+                        *factors.entry(num).or_insert(0) += 1;
+                    }
+                    factors
                 }
             }
         )*
