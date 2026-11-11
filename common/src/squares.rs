@@ -33,7 +33,9 @@ macro_rules! impl_squares {
                 }
 
                 fn fill_squares(squares: &mut Vec<Self>, max: Self) {
-                    let start = squares.last().unwrap_or(&0) + 1;
+                    // Start with the number after the square root of the last entry
+                    // (or at 1, if there are no entries yet)
+                    let start = squares.last().map(|s| s.isqrt() + 1).unwrap_or(1);
                     for n in start..=max {
                         squares.push(n * n)
                     }
