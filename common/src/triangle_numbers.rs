@@ -1,4 +1,4 @@
-use super::primes::get_primes;
+use super::primes::Primes;
 
 pub fn find_triangle_number_divisors(num_divisors: usize) -> usize {
     // A number N can be expressed as `N = p1^a1 * p2^a2 + ...`,
@@ -20,7 +20,7 @@ pub fn find_triangle_number_divisors(num_divisors: usize) -> usize {
     // Also once we've calculated D(n+1), we can use that for next value as D(n)
 
     // get primes
-    let primes = get_primes(num_divisors * 10);
+    let primes = usize::get_primes(num_divisors * 10);
     let mut n: usize = 3;
     let mut dn: usize = 2; // Number of divisors for any prime
     let mut count: usize = 0;

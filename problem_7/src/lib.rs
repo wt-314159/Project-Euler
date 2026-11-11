@@ -1,4 +1,4 @@
-use common::primes::fill_primes;
+use common::primes::Primes;
 
 pub fn find_nth_prime(n: usize) -> usize {
     find_nth_prime_using_ratio(n, 2)
@@ -13,7 +13,7 @@ pub fn find_nth_prime_using_ratio(n: usize, upper_bound_ratio: usize) -> usize {
         {
             max = biggest_prime * upper_bound_ratio;
         }
-        fill_primes(&mut primes, max);
+        usize::fill_primes(&mut primes, max);
     }
     primes
         .get(n - 1)

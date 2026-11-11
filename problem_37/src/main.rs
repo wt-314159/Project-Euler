@@ -1,7 +1,4 @@
-use common::{
-    digits_big_endian, from_digits,
-    primes::{fill_primes, get_primes, is_prime},
-};
+use common::{digits_big_endian, from_digits, primes::Primes};
 
 fn main() {
     let trunc_primes = find_left_right_truncatable_primes(11);
@@ -13,7 +10,7 @@ fn find_left_right_truncatable_primes(count: usize) -> Vec<u64> {
     // take a guess at the max number of primes
     let mut max = 1_000_000;
     let mut trunc_primes = Vec::new();
-    let mut primes = get_primes(max);
+    let mut primes = usize::get_primes(max);
     // Skip primes less than 10
     let mut skip = 4;
     while trunc_primes.len() < count {
@@ -32,7 +29,7 @@ fn find_left_right_truncatable_primes(count: usize) -> Vec<u64> {
             skip = *primes.last().unwrap();
             max *= 2;
             println!("Expanding primes up to {max}");
-            fill_primes(&mut primes, max);
+            usize::fill_primes(&mut primes, max);
         }
     }
     trunc_primes
@@ -41,13 +38,13 @@ fn find_left_right_truncatable_primes(count: usize) -> Vec<u64> {
 fn is_right_truncatable(digits: &[u32]) -> bool {
     (1..digits.len()).map(|i| &digits[0..i]).all(|trunc| {
         let trunc = from_digits(trunc);
-        is_prime(trunc as usize)
+        trunc.is_prime()
     })
 }
 
 fn is_left_truncatable(digits: &[u32]) -> bool {
     (1..digits.len()).map(|i| &digits[i..]).all(|trunc| {
         let trunc = from_digits(trunc);
-        is_prime(trunc as usize)
+        trunc.is_prime()
     })
 }

@@ -1,3 +1,4 @@
+use squares::Squares;
 use std::ops::{Add, Mul};
 
 use fractions::find_divisors;
@@ -16,12 +17,9 @@ pub trait Integer: Sized + Copy + PartialOrd + Mul<Output = Self> + Add<Output =
     fn checked_factorial(self) -> Option<Self>;
     fn unchecked_factorial(self) -> Self;
     fn big_factorial(self) -> BigUint;
-    fn is_prime(&self) -> bool;
-    fn is_square(&self) -> bool;
     fn is_triangular(&self) -> bool;
     fn is_pentagonal(&self) -> bool;
     fn is_hexagonal(&self) -> bool;
-    fn exact_sqrt(&self) -> Option<Self>;
     fn digits_rev(self) -> impl Iterator<Item = Self>;
     fn digits_vec(self) -> Vec<Self>;
     fn gcd(self, other: &Self) -> Self;
@@ -47,46 +45,6 @@ macro_rules! impl_integer {
                     (2..=self).fold(BigUint::ONE, |acc, n| acc * n)
                 }
 
-                fn is_prime(&self) -> bool {
-                    if *self < 2 {
-                        false
-                    } else if *self < 4 {
-                        true
-                    } else if self.is_multiple_of(2) {
-                        false
-                    } else if *self < 9 {
-                        true // have already ruled out all non-primes less than 9
-                    } else if self.is_multiple_of(3) {
-                        false
-                    } else {
-                        let max = self.isqrt();
-                        let mut i = 5;
-                        while i <= max {
-                            if self.is_multiple_of(i) {
-                                return false;
-                            }
-                            if self.is_multiple_of(i + 2) {
-                                return false;
-                            }
-                            i += 6;
-                        }
-                        true
-                    }
-                }
-
-                fn is_square(&self) -> bool {
-                    let root = self.isqrt();
-                    root * root == *self
-                }
-
-                fn exact_sqrt(&self) -> Option<Self> {
-                    let root = self.isqrt();
-                    if root * root == *self {
-                        Some(root)
-                    } else {
-                        None
-                    }
-                }
 
                 fn is_triangular(&self) -> bool {
                     if let Some(root) = (1 + 8 * self).exact_sqrt() {

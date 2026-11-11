@@ -1,4 +1,4 @@
-use common::primes::{fill_primes, get_primes};
+use common::primes::Primes;
 
 fn main() {
     let mut checker = PrimeChecker::with_initial_max(10_000);
@@ -15,13 +15,13 @@ struct PrimeChecker {
 
 impl PrimeChecker {
     fn with_initial_max(max: usize) -> Self {
-        let primes = get_primes(max);
+        let primes = usize::get_primes(max);
         PrimeChecker { max, primes }
     }
 
     fn is_prime(&mut self, num: usize) -> bool {
         if num > self.max {
-            fill_primes(&mut self.primes, num);
+            usize::fill_primes(&mut self.primes, num);
             self.max = num
         }
         self.primes.binary_search(&num).is_ok()

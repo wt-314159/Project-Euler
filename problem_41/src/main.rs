@@ -1,4 +1,4 @@
-use common::{Integer, IntegerSliceExt, combinatorics::PermutationsRevEx};
+use common::{Integer, IntegerSliceExt, combinatorics::PermutationsRevEx, primes::Primes};
 
 fn main() {
     let start = std::time::Instant::now();

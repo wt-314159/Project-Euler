@@ -1,3 +1,50 @@
+use crate::Integer;
+
+pub trait Squares: Integer {
+    fn is_square(&self) -> bool;
+    /// Gets the integer square root of `self`,
+    /// or `None` if self isn't a square number
+    fn exact_sqrt(&self) -> Option<Self>;
+    fn get_squares(max: Self) -> Vec<Self>;
+    fn fill_squares(squares: &mut Vec<Self>, max: Self);
+}
+
+macro_rules! impl_squares {
+    ($($t:ty),* $(,)?) => {
+        $(
+            impl Squares for $t {
+
+                fn is_square(&self) -> bool {
+                    let root = self.isqrt();
+                    root * root == *self
+                }
+
+                fn exact_sqrt(&self) -> Option<Self> {
+                    let root = self.isqrt();
+                    if root * root == *self {
+                        Some(root)
+                    } else {
+                        None
+                    }
+                }
+
+                fn get_squares(max: Self) -> Vec<Self> {
+                    (1..=max).map(|n| n * n).collect()
+                }
+
+                fn fill_squares(squares: &mut Vec<Self>, max: Self) {
+                    let start = squares.last().unwrap_or(&0) + 1;
+                    for n in start..=max {
+                        squares.push(n * n)
+                    }
+                }
+            }
+        )*
+    };
+}
+
+impl_squares!(u32, u64, usize);
+
 pub fn find_pythagorean_triplet<F>(max: usize, predicate: F) -> Option<(usize, usize, usize)>
 where
     F: Fn(usize, usize, usize) -> bool,
