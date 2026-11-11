@@ -38,7 +38,7 @@ macro_rules! impl_primes {
                             if self.is_multiple_of(i) {
                                 return false;
                             }
-                            if self.is_multiple_of(i + 2){
+                            if self.is_multiple_of(i + 2) {
                                 return false;
                             }
                             i += 6;
@@ -216,7 +216,11 @@ mod tests {
     #[test]
     fn is_prime_100() {
         for i in 0..=100 {
-            assert!(i.is_prime() == PRIMES_TO_100.contains(&i));
+            let is_prime = i.is_prime();
+            assert!(
+                i.is_prime() == PRIMES_TO_100.contains(&i),
+                "Failed on number: {i} (is_prime: {is_prime})"
+            );
         }
     }
 
