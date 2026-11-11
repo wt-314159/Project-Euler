@@ -20,3 +20,7 @@ harness = false
 [[bench]]
 name = "triangle_divisors"
 harness = false
+
+[[bench]]
+name = "get_squares"
+harness = false

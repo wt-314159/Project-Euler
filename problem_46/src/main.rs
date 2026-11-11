@@ -12,7 +12,7 @@ fn find_smallest_exception() -> u64 {
     let mut start = 9;
     let mut max = 10_000;
     let mut primes = u64::get_primes(max);
-    let mut squares = u64::get_squares(max);
+    let mut squares = u64::get_squares_to(max);
     // the index of the next prime bigger than our starting value
     let mut prime_idx = primes.iter().position(|p| *p >= start).unwrap();
     loop {
@@ -37,7 +37,7 @@ fn find_smallest_exception() -> u64 {
         start = max + 1; // To ensure it's always odd
         max *= 2;
         u64::fill_primes(&mut primes, max);
-        u64::fill_squares(&mut squares, max);
+        u64::fill_squares_to(&mut squares, max);
     }
 }
 
