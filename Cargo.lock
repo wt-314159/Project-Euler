@@ -657,6 +657,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "problem_48"
+version = "0.1.0"
+dependencies = [
+ "num-bigint",
+]
+
+[[package]]
 name = "problem_5"
 version = "0.1.0"
 
