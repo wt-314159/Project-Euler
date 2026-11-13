@@ -27,7 +27,6 @@ fn find_longest_sequence(primes: &[u32], max: u32, longer_than: usize) -> (usize
     let mut for_prime = 0;
     // All possible starting primes of our sequence
     let mut i = 0;
-    eprintln!("primes_len: {}, longest: {longest}", primes.len());
     while i < primes.len() - longest {
         // start by summing the longest sequence number of primes together
         // (no need to bother checking less than this, since that wouldn't
