@@ -28,3 +28,7 @@ harness = false
 [[bench]]
 name = "prime_factors"
 harness = false
+
+[[bench]]
+name = "sum_primes"
+harness = false
